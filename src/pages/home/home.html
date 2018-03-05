@@ -1,0 +1,16 @@
+<ion-header>
+    <ion-navbar color='primary'>
+        <ion-title>
+            U-HAUL Mobile Web Test
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-list inset>
+        <ion-item *ngFor="let user of users" (click)="viewPosts(user)" style="cursor:pointer">
+            <h2>{{user.username}}</h2>
+            <p>{{user.address.street}} {{user.address.suite}}, {{user.address.city}} {{user.address.zipcode}} </p>
+        </ion-item>
+    </ion-list>
+</ion-content>

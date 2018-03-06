@@ -17,7 +17,6 @@
 
 </ion-header>
 
-
 <ion-content padding>
     <ion-card *ngFor="let post of posts">
 
@@ -30,7 +29,7 @@
         </ion-card-content>
 
         <button ion-button color='secondary' (click)='editPost(post)'>Edit</button>
-        <button ion-button color='danger' (click)='deletePost(id)'>Delete</button>
+        <button ion-button color='danger' (click)='deletePost(post.id)'>Delete</button>
 
     </ion-card>
 

@@ -4,7 +4,6 @@ import { RestProvider } from '../../providers/rest/rest';
 
 // Pages
 import { UserPostsPage } from '../user-posts/user-posts';
-// import { CreateNewPostPage } from '../create-new-post/create-new-post';
 
 @Component({
   selector: 'page-home',
@@ -33,12 +32,14 @@ export class HomePage {
     });
   }
 
-  // Click event to display user posts page for specific user
+  // Click event to display all posts for a specific user
   viewPosts(user) {
+
+    // Push user data to UserPostsPage
     this.navCtrl.push(UserPostsPage, {
       user
     });
-    console.log('VIEWPOSTS for user: ' + user.id);
+    console.log('View all Posts for user: ' + user.username);
   }
 
 }

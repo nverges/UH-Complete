@@ -35,6 +35,7 @@ var CreateNewPostPage = (function () {
         // Retrieve user info
         this.user = navParams.get('userId');
         this.appendNewPost = navParams.get('appendNewPost');
+        this.username = navParams.get('username');
     }
     CreateNewPostPage.prototype.ionViewDidLoad = function () {
         console.log('CreateNewPostPage loaded');
@@ -68,7 +69,7 @@ var CreateNewPostPage = (function () {
     };
     CreateNewPostPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-create-new-post',template:/*ion-inline-start:"/Users/nick/Desktop/UH-Complete/src/pages/create-new-post/create-new-post.html"*/'<!--\n  Generated template for the CreateNewPostPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n    <ion-navbar color=\'secondary\'>\n        <ion-title>Create New Post</ion-title>\n        <ion-buttons end>\n            <button ion-button icon-only (click)=\'close()\'><ion-icon name=\'close\'></ion-icon></button>\n        </ion-buttons>\n    </ion-navbar>\n\n</ion-header>\n\n<ion-content padding>\n\n    <ion-list>\n\n        <ion-item>\n            <ion-label floating ng-model=\'user\'>Create post for: {{ user }}</ion-label>\n            <ion-input type=\'text\' disabled></ion-input>\n        </ion-item>\n\n        <ion-item>\n            <ion-label floating>Title</ion-label>\n            <ion-input type=\'text\' [(ngModel)]=\'title\'></ion-input>\n        </ion-item>\n\n        <ion-item>\n            <ion-label floating>Body</ion-label>\n            <ion-input type=\'text\' [(ngModel)]=\'body\'></ion-input>\n        </ion-item>\n\n    </ion-list>\n\n    <button full ion-button color=\'secondary\' (click)=\'savePost(id)\'>Save</button>\n\n</ion-content>'/*ion-inline-end:"/Users/nick/Desktop/UH-Complete/src/pages/create-new-post/create-new-post.html"*/,
+            selector: 'page-create-new-post',template:/*ion-inline-start:"/Users/nick/Desktop/UH-Complete/src/pages/create-new-post/create-new-post.html"*/'<!--\n  Generated template for the CreateNewPostPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n    <ion-navbar color=\'secondary\'>\n        <ion-title>Create New Post for {{ username }}</ion-title>\n        <ion-buttons end>\n            <button ion-button icon-only (click)=\'close()\'><ion-icon name=\'close\'></ion-icon></button>\n        </ion-buttons>\n    </ion-navbar>\n\n</ion-header>\n\n<ion-content padding>\n\n    <ion-list>\n\n        <ion-item>\n            <ion-label floating>Title</ion-label>\n            <ion-input type=\'text\' [(ngModel)]=\'title\'></ion-input>\n        </ion-item>\n\n        <ion-item>\n            <ion-label floating>Body</ion-label>\n            <ion-input type=\'text\' [(ngModel)]=\'body\'></ion-input>\n        </ion-item>\n\n    </ion-list>\n\n    <button full ion-button color=\'secondary\' (click)=\'savePost(id)\'>Save</button>\n\n</ion-content>'/*ion-inline-end:"/Users/nick/Desktop/UH-Complete/src/pages/create-new-post/create-new-post.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* ViewController */], __WEBPACK_IMPORTED_MODULE_2__providers_rest_rest__["a" /* RestProvider */]])
     ], CreateNewPostPage);
@@ -180,7 +181,7 @@ var UserPostsPage = (function () {
     }
     UserPostsPage.prototype.ionViewDidLoad = function () {
         console.log('UserPostsPage loaded');
-        console.log('Selected User:');
+        console.log('Selected User Data:');
         console.log(this.navParams.get('user'));
         // Retrieve all posts from user
         this.getUserPosts(this.navParams.get('user').id);
@@ -192,7 +193,7 @@ var UserPostsPage = (function () {
     // Get a specific user's posts by userId
     UserPostsPage.prototype.getUserPosts = function (id) {
         var _this = this;
-        // GET request
+        // GET request 
         this.restProvider.getUserPosts(id)
             .then(function (data) {
             // Set entire data object to 'posts' variable
@@ -204,10 +205,11 @@ var UserPostsPage = (function () {
     };
     // Display Create New Post Page in Modal
     UserPostsPage.prototype.createPostPage = function (userId) {
-        console.log('ID: ' + userId);
+        console.log("Create New Post for " + this.username + ", userId: " + userId);
         // Send data to Modal Component
         var modal = this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_3__create_new_post_create_new_post__["a" /* CreateNewPostPage */], {
             userId: userId,
+            username: this.navParams.get('user').username,
             appendNewPost: this.appendNewPost.bind(this)
         });
         // Renders Modal
@@ -215,23 +217,28 @@ var UserPostsPage = (function () {
     };
     // Append post to user's post list
     UserPostsPage.prototype.appendNewPost = function (post) {
-        console.log('appendNewPost() firing');
+        // console.log('appendNewPost() firing');
         // Push new post to Posts object
         this.posts.push(post);
     };
     // Delete selected post
     UserPostsPage.prototype.deletePost = function (id) {
-        console.log('deletePost() firing');
+        // console.log('deletePost() firing');
+        // console.log(id);
+        // API delete call
         this.restProvider.deletePost(id);
     };
     // Edit Selected Post
     UserPostsPage.prototype.editPost = function (id) {
         console.log('editPost() firing');
+        // Currently selected Post
         var currentPost = {
             'title': this.title = this.navParams.get('user').title,
             'body': this.body = this.navParams.get('user').body
         };
+        // Pass data to modal
         var modal = this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_4__edit_post_edit_post__["a" /* EditPostPage */], { currentPost: currentPost });
+        // Render modal
         modal.present();
     };
     // Close View
@@ -240,11 +247,12 @@ var UserPostsPage = (function () {
     };
     UserPostsPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-user-posts',template:/*ion-inline-start:"/Users/nick/Desktop/UH-Complete/src/pages/user-posts/user-posts.html"*/'<!--\n  Generated template for the UserPostsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n    <ion-navbar color=\'light\'>\n        <ion-title>{{ username }}\'s Posts</ion-title>\n        <!-- <ion-title> {{ id }}</ion-title> -->\n        <ion-buttons end>\n            <button ion-button icon-only (click)=\'createPostPage(id)\' ion-button><ion-icon name=\'add-circle\'></ion-icon></button>\n            <button ion-button icon-only (click)=\'close()\'><ion-icon name=\'close\'></ion-icon></button>\n        </ion-buttons>\n    </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n    <ion-card *ngFor="let post of posts">\n\n        <ion-card-header value=\'title\'>\n            {{ post.title }}\n        </ion-card-header>\n\n        <ion-card-content value=\'body\'>\n            {{ post.body }}\n        </ion-card-content>\n\n        <button ion-button color=\'secondary\' (click)=\'editPost(post)\'>Edit</button>\n        <button ion-button color=\'danger\' (click)=\'deletePost(id)\'>Delete</button>\n\n    </ion-card>\n\n</ion-content>'/*ion-inline-end:"/Users/nick/Desktop/UH-Complete/src/pages/user-posts/user-posts.html"*/,
+            selector: 'page-user-posts',template:/*ion-inline-start:"/Users/nick/Desktop/UH-Complete/src/pages/user-posts/user-posts.html"*/'<!--\n  Generated template for the UserPostsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n    <ion-navbar color=\'light\'>\n        <ion-title>{{ username }}\'s Posts</ion-title>\n        <!-- <ion-title> {{ id }}</ion-title> -->\n        <ion-buttons end>\n            <button ion-button icon-only (click)=\'createPostPage(id)\' ion-button><ion-icon name=\'add-circle\'></ion-icon></button>\n            <button ion-button icon-only (click)=\'close()\'><ion-icon name=\'close\'></ion-icon></button>\n        </ion-buttons>\n    </ion-navbar>\n\n</ion-header>\n\n<ion-content padding>\n    <ion-card *ngFor="let post of posts">\n\n        <ion-card-header value=\'title\'>\n            {{ post.title }}\n        </ion-card-header>\n\n        <ion-card-content value=\'body\'>\n            {{ post.body }}\n        </ion-card-content>\n\n        <button ion-button color=\'secondary\' (click)=\'editPost(post)\'>Edit</button>\n        <button ion-button color=\'danger\' (click)=\'deletePost(post.id)\'>Delete</button>\n\n    </ion-card>\n\n</ion-content>'/*ion-inline-end:"/Users/nick/Desktop/UH-Complete/src/pages/user-posts/user-posts.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* ViewController */], __WEBPACK_IMPORTED_MODULE_2__providers_rest_rest__["a" /* RestProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* ModalController */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* ViewController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* ViewController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__providers_rest_rest__["a" /* RestProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_rest_rest__["a" /* RestProvider */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* ModalController */]) === "function" && _e || Object])
     ], UserPostsPage);
     return UserPostsPage;
+    var _a, _b, _c, _d, _e;
 }());
 
 //# sourceMappingURL=user-posts.js.map
@@ -324,7 +332,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 // Pages
 
-// import { CreateNewPostPage } from '../create-new-post/create-new-post';
 var HomePage = (function () {
     function HomePage(navCtrl, restProvider, modalCtrl) {
         this.navCtrl = navCtrl;
@@ -603,7 +610,7 @@ var RestProvider = (function () {
         console.log('api deletePost arg: ' + id);
         this.http.delete(this.apiUrl + '/posts/' + id)
             .subscribe(function (post) {
-            console.log('Deleting Post:', post);
+            console.log('Deleting Post:', id);
         }, function (response) {
             console.log('ERROR', response);
         }, function () {

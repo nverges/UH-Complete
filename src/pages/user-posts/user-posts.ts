@@ -37,7 +37,7 @@ export class UserPostsPage {
 
   ionViewDidLoad() {
     console.log('UserPostsPage loaded');
-    console.log('Selected User:');
+    console.log('Selected User Data:');
     console.log(this.navParams.get('user'));
 
     // Retrieve all posts from user
@@ -51,7 +51,7 @@ export class UserPostsPage {
   // Get a specific user's posts by userId
   getUserPosts(id) {
 
-    // GET request
+    // GET request 
     this.restProvider.getUserPosts(id)
     .then(data => {
 
@@ -66,11 +66,12 @@ export class UserPostsPage {
 
   // Display Create New Post Page in Modal
   createPostPage(userId) {
-    console.log('ID: ' + userId);
+    console.log(`Create New Post for ${this.username}, userId: ${userId}`)
     
     // Send data to Modal Component
     let modal = this.modalCtrl.create(CreateNewPostPage, {
       userId, 
+      username: this.navParams.get('user').username,
       appendNewPost: this.appendNewPost.bind(this)
     });
     
@@ -80,29 +81,37 @@ export class UserPostsPage {
   
   // Append post to user's post list
   appendNewPost(post) {
-    console.log('appendNewPost() firing');
+    // console.log('appendNewPost() firing');
 
     // Push new post to Posts object
     this.posts.push(post);
   }
 
   // Delete selected post
-  deletePost(id: number) {
-    console.log('deletePost() firing');
+  deletePost(id) {
+    // console.log('deletePost() firing');
+    // console.log(id);
+
+    // API delete call
     this.restProvider.deletePost(id);
+    
   }
 
   // Edit Selected Post
-  editPost(id: number) {
+  editPost(id) {
     console.log('editPost() firing');
 
+    // Currently selected Post
     let currentPost = {
       'title': this.title = this.navParams.get('user').title,
       'body': this.body = this.navParams.get('user').body
     }
 
+    // Pass data to modal
     let modal = this.modalCtrl.create(EditPostPage, {currentPost});
-    modal.present();
+
+      // Render modal
+      modal.present();
   }
 
   // Close View

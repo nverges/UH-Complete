@@ -19,6 +19,7 @@ import { RestProvider } from '../../providers/rest/rest';
 export class CreateNewPostPage {
 
   // Variables
+  username: string;
   title: string;
   body: string;
   id: number;
@@ -30,6 +31,7 @@ export class CreateNewPostPage {
     // Retrieve user info
     this.user = navParams.get('userId');
     this.appendNewPost = navParams.get('appendNewPost');
+    this.username = navParams.get('username');
 
   }
 
@@ -39,7 +41,7 @@ export class CreateNewPostPage {
 
   // Save Post
   savePost(userId) {
-    console.log('savePost() firing');
+    // console.log('savePost() firing');
 
     // set userId for selected user
     userId = this.user;
@@ -52,13 +54,15 @@ export class CreateNewPostPage {
     };
 
     // logs
-    console.log('Create New Post for userId: ' + userId);
+    console.log('Create a New Post for userId: ' + userId);
     console.log(newPost);
  
     // Validation - if a newPost has been entered...
     if (newPost) {
       // Trigger API POST request
       this.restProvider.createPost(newPost)
+
+        // Append post to User's post list
         .then(this.appendNewPost(newPost));
     }
 

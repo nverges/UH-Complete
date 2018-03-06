@@ -26,6 +26,7 @@ export class UserPostsPage {
 
   // Variables
   posts: any;
+  post: any;
   username: any;
   id: any;
   title: any;
@@ -90,32 +91,47 @@ export class UserPostsPage {
   // Delete selected post
   deletePost(id) {
     // console.log('deletePost() firing');
-    console.log(this.posts)
-    console.log(id);
+    // console.log(id);
 
     // API delete call
     this.restProvider.deletePost(id)
 
       // Remove deleted post
+      // Not sure why this works. 
+      // Doesn't work in a .then()?
       _.remove(this.posts, {id});
+
+  }
+
+  updatePost(post) {
+
+
+    let editedIndex = _.findIndex(this.posts, {id: post.id})
+    console.log(post)
+    console.log(editedIndex)
+    // Update object
+    this.posts.splice(editedIndex, 1, post);
 
   }
 
   // Edit Selected Post
   editPost(id) {
     console.log('editPost() firing');
+    console.log(id);
 
-    // Currently selected Post
-    let currentPost = {
-      'title': this.title = this.navParams.get('user').title,
-      'body': this.body = this.navParams.get('user').body
-    }
+    // Find post
+    let post = _.find(this.posts, {id})
+    console.log(post);
+    console.log(this.updatePost)
 
-    // Pass data to modal
-    let modal = this.modalCtrl.create(EditPostPage, {currentPost});
+    // Pass post data to modal
+    let modal = this.modalCtrl.create(EditPostPage, {
+      post,
+      updatePost: this.updatePost.bind(this)
+    });
 
-      // Render modal
-      modal.present();
+    // Render modal
+    modal.present();
   }
 
   // Close View

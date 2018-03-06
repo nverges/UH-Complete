@@ -21,16 +21,16 @@
 
         <ion-item>
             <ion-label floating>Title</ion-label>
-            <ion-input type='text' [(ngModel)]='title'></ion-input>
+            <ion-input type='text' [(ngModel)]='title' value='{{post.title}}'></ion-input>
         </ion-item>
 
         <ion-item>
             <ion-label floating>Body</ion-label>
-            <ion-input type='text' [(ngModel)]='body'></ion-input>
+            <ion-textarea type='text' [(ngModel)]='body' value='{{post.body}}' min='1000'></ion-textarea>
         </ion-item>
 
     </ion-list>
 
-    <button full ion-button color='secondary' (click)='saveEdit(id)'>Save</button>
+    <button full ion-button color='secondary' (click)='saveEdit(post.id)'>Save</button>
 
 </ion-content>

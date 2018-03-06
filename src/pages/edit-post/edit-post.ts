@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 
+// Providers
+import { RestProvider } from '../../providers/rest/rest';
+
 /**
  * Generated class for the EditPostPage page.
  *
@@ -15,12 +18,18 @@ import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angul
 })
 export class EditPostPage {
   
-  currentPost: string;
+  post: any;
+  updatePost: any;
+  title: any;
+  body: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public restProvider: RestProvider) {
 
     // Retrieve current post
-    this.currentPost = this.navParams.get('currentPost');
+    this.post = navParams.get('post');
+    this.updatePost = navParams.get('updatePost');
+    console.log(this.post);
+    console.log(this.updatePost)
     
   }
 
@@ -29,8 +38,24 @@ export class EditPostPage {
   }
 
   // Edit post
-  saveEdit() {
+  saveEdit(id) {
     console.log('saveEdit firing');
+    console.log(id);
+
+    let newPost = {
+      id,
+      title: this.title,
+      body: this.body
+    };
+
+    console.log(newPost)
+
+    // API POST request
+    this.restProvider.editPost(id, newPost)
+      // .then(() => {
+      //   this.updatePost(newPost)
+      // });
+    this.updatePost(newPost)
 
     // Close modal on "Save"
     this.viewCtrl.dismiss();

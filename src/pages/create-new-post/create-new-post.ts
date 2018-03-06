@@ -30,8 +30,8 @@ export class CreateNewPostPage {
 
     // Retrieve user info
     this.user = navParams.get('userId');
-    this.appendNewPost = navParams.get('appendNewPost');
     this.username = navParams.get('username');
+    this.appendNewPost = navParams.get('appendNewPost');
 
   }
 

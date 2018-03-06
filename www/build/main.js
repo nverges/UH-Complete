@@ -7,7 +7,7 @@ webpackJsonp([3],{
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CreateNewPostPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(28);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_rest_rest__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_rest_rest__ = __webpack_require__(41);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -34,8 +34,8 @@ var CreateNewPostPage = (function () {
         this.restProvider = restProvider;
         // Retrieve user info
         this.user = navParams.get('userId');
-        this.appendNewPost = navParams.get('appendNewPost');
         this.username = navParams.get('username');
+        this.appendNewPost = navParams.get('appendNewPost');
     }
     CreateNewPostPage.prototype.ionViewDidLoad = function () {
         console.log('CreateNewPostPage loaded');
@@ -87,6 +87,7 @@ var CreateNewPostPage = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EditPostPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_rest_rest__ = __webpack_require__(41);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -98,6 +99,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+// Providers
+
 /**
  * Generated class for the EditPostPage page.
  *
@@ -105,19 +108,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Ionic pages and navigation.
  */
 var EditPostPage = (function () {
-    function EditPostPage(navCtrl, navParams, viewCtrl) {
+    function EditPostPage(navCtrl, navParams, viewCtrl, restProvider) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.viewCtrl = viewCtrl;
+        this.restProvider = restProvider;
         // Retrieve current post
-        this.currentPost = this.navParams.get('currentPost');
+        this.post = navParams.get('post');
+        this.updatePost = navParams.get('updatePost');
+        console.log(this.post);
+        console.log(this.updatePost);
     }
     EditPostPage.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad EditPostPage');
     };
     // Edit post
-    EditPostPage.prototype.saveEdit = function () {
+    EditPostPage.prototype.saveEdit = function (id) {
         console.log('saveEdit firing');
+        console.log(id);
+        var newPost = {
+            id: id,
+            title: this.title,
+            body: this.body
+        };
+        console.log(newPost);
+        // API POST request
+        this.restProvider.editPost(id, newPost);
+        // .then(() => {
+        //   this.updatePost(newPost)
+        // });
+        this.updatePost(newPost);
         // Close modal on "Save"
         this.viewCtrl.dismiss();
     };
@@ -127,11 +147,12 @@ var EditPostPage = (function () {
     };
     EditPostPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-edit-post',template:/*ion-inline-start:"/Users/nick/Desktop/UH-Complete/src/pages/edit-post/edit-post.html"*/'<!--\n  Generated template for the EditPostPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n    <ion-navbar color=\'secondary\'>\n        <ion-title>Edit Post</ion-title>\n        <ion-buttons end>\n            <button ion-button icon-only (click)=\'close()\'><ion-icon name=\'close\'></ion-icon></button>\n        </ion-buttons>\n    </ion-navbar>\n\n</ion-header>\n\n<ion-content padding>\n\n    <ion-list>\n\n        <ion-item>\n            <ion-label floating>Title</ion-label>\n            <ion-input type=\'text\' [(ngModel)]=\'title\'></ion-input>\n        </ion-item>\n\n        <ion-item>\n            <ion-label floating>Body</ion-label>\n            <ion-input type=\'text\' [(ngModel)]=\'body\'></ion-input>\n        </ion-item>\n\n    </ion-list>\n\n    <button full ion-button color=\'secondary\' (click)=\'saveEdit(id)\'>Save</button>\n\n</ion-content>'/*ion-inline-end:"/Users/nick/Desktop/UH-Complete/src/pages/edit-post/edit-post.html"*/,
+            selector: 'page-edit-post',template:/*ion-inline-start:"/Users/nick/Desktop/UH-Complete/src/pages/edit-post/edit-post.html"*/'<!--\n  Generated template for the EditPostPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n    <ion-navbar color=\'secondary\'>\n        <ion-title>Edit Post</ion-title>\n        <ion-buttons end>\n            <button ion-button icon-only (click)=\'close()\'><ion-icon name=\'close\'></ion-icon></button>\n        </ion-buttons>\n    </ion-navbar>\n\n</ion-header>\n\n<ion-content padding>\n\n    <ion-list>\n\n        <ion-item>\n            <ion-label floating>Title</ion-label>\n            <ion-input type=\'text\' [(ngModel)]=\'title\' value=\'{{post.title}}\'></ion-input>\n        </ion-item>\n\n        <ion-item>\n            <ion-label floating>Body</ion-label>\n            <ion-textarea type=\'text\' [(ngModel)]=\'body\' value=\'{{post.body}}\' min=\'1000\'></ion-textarea>\n        </ion-item>\n\n    </ion-list>\n\n    <button full ion-button color=\'secondary\' (click)=\'saveEdit(post.id)\'>Save</button>\n\n</ion-content>'/*ion-inline-end:"/Users/nick/Desktop/UH-Complete/src/pages/edit-post/edit-post.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* ViewController */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* ViewController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* ViewController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__providers_rest_rest__["a" /* RestProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_rest_rest__["a" /* RestProvider */]) === "function" && _d || Object])
     ], EditPostPage);
     return EditPostPage;
+    var _a, _b, _c, _d;
 }());
 
 //# sourceMappingURL=edit-post.js.map
@@ -145,7 +166,7 @@ var EditPostPage = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserPostsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(28);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_rest_rest__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_rest_rest__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__create_new_post_create_new_post__ = __webpack_require__(101);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__edit_post_edit_post__ = __webpack_require__(102);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_lodash__ = __webpack_require__(255);
@@ -226,23 +247,34 @@ var UserPostsPage = (function () {
     // Delete selected post
     UserPostsPage.prototype.deletePost = function (id) {
         // console.log('deletePost() firing');
-        console.log(this.posts);
-        console.log(id);
+        // console.log(id);
         // API delete call
         this.restProvider.deletePost(id);
         // Remove deleted post
+        // Not sure why this works. 
+        // Doesn't work in a .then()?
         __WEBPACK_IMPORTED_MODULE_5_lodash___default.a.remove(this.posts, { id: id });
+    };
+    UserPostsPage.prototype.updatePost = function (post) {
+        var editedIndex = __WEBPACK_IMPORTED_MODULE_5_lodash___default.a.findIndex(this.posts, { id: post.id });
+        console.log(post);
+        console.log(editedIndex);
+        // Update object
+        this.posts.splice(editedIndex, 1, post);
     };
     // Edit Selected Post
     UserPostsPage.prototype.editPost = function (id) {
         console.log('editPost() firing');
-        // Currently selected Post
-        var currentPost = {
-            'title': this.title = this.navParams.get('user').title,
-            'body': this.body = this.navParams.get('user').body
-        };
-        // Pass data to modal
-        var modal = this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_4__edit_post_edit_post__["a" /* EditPostPage */], { currentPost: currentPost });
+        console.log(id);
+        // Find post
+        var post = __WEBPACK_IMPORTED_MODULE_5_lodash___default.a.find(this.posts, { id: id });
+        console.log(post);
+        console.log(this.updatePost);
+        // Pass post data to modal
+        var modal = this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_4__edit_post_edit_post__["a" /* EditPostPage */], {
+            post: post,
+            updatePost: this.updatePost.bind(this)
+        });
         // Render modal
         modal.present();
     };
@@ -252,7 +284,7 @@ var UserPostsPage = (function () {
     };
     UserPostsPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-user-posts',template:/*ion-inline-start:"/Users/nick/Desktop/UH-Complete/src/pages/user-posts/user-posts.html"*/'<!--\n  Generated template for the UserPostsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n    <ion-navbar color=\'light\'>\n        <ion-title>{{ username }}\'s Posts</ion-title>\n        <!-- <ion-title> {{ id }}</ion-title> -->\n        <ion-buttons end>\n            <button ion-button icon-only (click)=\'createPostPage(id)\' ion-button><ion-icon name=\'add-circle\'></ion-icon></button>\n            <button ion-button icon-only (click)=\'close()\'><ion-icon name=\'close\'></ion-icon></button>\n        </ion-buttons>\n    </ion-navbar>\n\n</ion-header>\n\n<ion-content padding>\n    <ion-card *ngFor="let post of posts">\n\n        <ion-card-header value=\'title\'>\n            {{ post.title }}\n        </ion-card-header>\n\n        <ion-card-content value=\'body\'>\n            {{ post.body }}\n        </ion-card-content>\n\n        <button ion-button color=\'secondary\' (click)=\'editPost(post)\'>Edit</button>\n        <button ion-button color=\'danger\' (click)=\'deletePost(post.id)\'>Delete</button>\n\n    </ion-card>\n\n</ion-content>'/*ion-inline-end:"/Users/nick/Desktop/UH-Complete/src/pages/user-posts/user-posts.html"*/,
+            selector: 'page-user-posts',template:/*ion-inline-start:"/Users/nick/Desktop/UH-Complete/src/pages/user-posts/user-posts.html"*/'<!--\n  Generated template for the UserPostsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n    <ion-navbar color=\'light\'>\n        <ion-title>{{ username }}\'s Posts</ion-title>\n        <ion-buttons end>\n            <button ion-button icon-only (click)=\'createPostPage(id)\' ion-button><ion-icon name=\'add-circle\'></ion-icon></button>\n            <button ion-button icon-only (click)=\'close()\'><ion-icon name=\'close\'></ion-icon></button>\n        </ion-buttons>\n    </ion-navbar>\n\n</ion-header>\n\n<ion-content padding>\n    <ion-card *ngFor="let post of posts">\n\n        <ion-card-header value=\'title\'>\n            {{ post.title }}\n        </ion-card-header>\n\n        <ion-card-content value=\'body\'>\n            {{ post.body }}\n        </ion-card-content>\n\n        <button ion-button color=\'secondary\' (click)=\'editPost(post.id)\'>Edit</button>\n        <button ion-button color=\'danger\' (click)=\'deletePost(post.id)\'>Delete</button>\n\n    </ion-card>\n\n</ion-content>'/*ion-inline-end:"/Users/nick/Desktop/UH-Complete/src/pages/user-posts/user-posts.html"*/,
         }),
         __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* ViewController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* ViewController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__providers_rest_rest__["a" /* RestProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_rest_rest__["a" /* RestProvider */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* ModalController */]) === "function" && _e || Object])
     ], UserPostsPage);
@@ -321,7 +353,7 @@ module.exports = webpackAsyncContext;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(28);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_rest_rest__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_rest_rest__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__user_posts_user_posts__ = __webpack_require__(103);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -407,7 +439,7 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_user_posts_user_posts__ = __webpack_require__(103);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_create_new_post_create_new_post__ = __webpack_require__(101);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_edit_post_edit_post__ = __webpack_require__(102);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__providers_rest_rest__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__providers_rest_rest__ = __webpack_require__(41);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -520,7 +552,7 @@ var MyApp = (function () {
 
 /***/ }),
 
-/***/ 46:
+/***/ 41:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -603,11 +635,11 @@ var RestProvider = (function () {
     };
     // PUT
     // Edit a post
-    RestProvider.prototype.editPost = function (id) {
+    RestProvider.prototype.editPost = function (id, post) {
         var _this = this;
         // console.log(id);
         return new Promise(function (resolve, reject) {
-            _this.http.put(_this.apiUrl + '/posts/' + id, JSON.stringify(id))
+            _this.http.put(_this.apiUrl + '/posts/' + id, __assign({}, post))
                 .subscribe(function (res) {
                 resolve(res);
             }, function (err) {

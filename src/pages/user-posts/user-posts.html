@@ -8,7 +8,6 @@
 
     <ion-navbar color='light'>
         <ion-title>{{ username }}'s Posts</ion-title>
-        <!-- <ion-title> {{ id }}</ion-title> -->
         <ion-buttons end>
             <button ion-button icon-only (click)='createPostPage(id)' ion-button><ion-icon name='add-circle'></ion-icon></button>
             <button ion-button icon-only (click)='close()'><ion-icon name='close'></ion-icon></button>
@@ -28,7 +27,7 @@
             {{ post.body }}
         </ion-card-content>
 
-        <button ion-button color='secondary' (click)='editPost(post)'>Edit</button>
+        <button ion-button color='secondary' (click)='editPost(post.id)'>Edit</button>
         <button ion-button color='danger' (click)='deletePost(post.id)'>Delete</button>
 
     </ion-card>

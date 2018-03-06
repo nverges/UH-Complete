@@ -64,10 +64,10 @@ export class RestProvider {
 
   // PUT
   // Edit a post
-  editPost(id) {
+  editPost(id, post) {
     // console.log(id);
     return new Promise((resolve, reject) => {
-      this.http.put(this.apiUrl+'/posts/'+id, JSON.stringify(id))
+      this.http.put(this.apiUrl+'/posts/'+id, {...post})
         .subscribe(res => {
           resolve(res);
         }, (err) => {

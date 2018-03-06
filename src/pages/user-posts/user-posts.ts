@@ -8,7 +8,7 @@ import { RestProvider } from '../../providers/rest/rest';
 import { CreateNewPostPage } from '../create-new-post/create-new-post';
 import { EditPostPage } from '../edit-post/edit-post';
 
-// import _ from 'lodash';
+import _ from 'lodash';
 
 /**
  * Generated class for the UserPostsPage page.
@@ -90,11 +90,15 @@ export class UserPostsPage {
   // Delete selected post
   deletePost(id) {
     // console.log('deletePost() firing');
-    // console.log(id);
+    console.log(this.posts)
+    console.log(id);
 
     // API delete call
-    this.restProvider.deletePost(id);
-    
+    this.restProvider.deletePost(id)
+
+      // Remove deleted post
+      _.remove(this.posts, {id});
+
   }
 
   // Edit Selected Post

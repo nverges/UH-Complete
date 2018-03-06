@@ -1,6 +1,6 @@
 webpackJsonp([3],{
 
-/***/ 100:
+/***/ 101:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -42,7 +42,7 @@ var CreateNewPostPage = (function () {
     };
     // Save Post
     CreateNewPostPage.prototype.savePost = function (userId) {
-        console.log('savePost() firing');
+        // console.log('savePost() firing');
         // set userId for selected user
         userId = this.user;
         // New Post object
@@ -52,7 +52,7 @@ var CreateNewPostPage = (function () {
             body: this.body
         };
         // logs
-        console.log('Create New Post for userId: ' + userId);
+        console.log('Create a New Post for userId: ' + userId);
         console.log(newPost);
         // Validation - if a newPost has been entered...
         if (newPost) {
@@ -80,7 +80,7 @@ var CreateNewPostPage = (function () {
 
 /***/ }),
 
-/***/ 101:
+/***/ 102:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -138,7 +138,7 @@ var EditPostPage = (function () {
 
 /***/ }),
 
-/***/ 102:
+/***/ 103:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -146,8 +146,10 @@ var EditPostPage = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_rest_rest__ = __webpack_require__(46);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__create_new_post_create_new_post__ = __webpack_require__(100);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__edit_post_edit_post__ = __webpack_require__(101);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__create_new_post_create_new_post__ = __webpack_require__(101);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__edit_post_edit_post__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_lodash__ = __webpack_require__(255);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_lodash__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -164,7 +166,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 // Pages
 
 
-// import _ from 'lodash';
+
 /**
  * Generated class for the UserPostsPage page.
  *
@@ -224,9 +226,12 @@ var UserPostsPage = (function () {
     // Delete selected post
     UserPostsPage.prototype.deletePost = function (id) {
         // console.log('deletePost() firing');
-        // console.log(id);
+        console.log(this.posts);
+        console.log(id);
         // API delete call
         this.restProvider.deletePost(id);
+        // Remove deleted post
+        __WEBPACK_IMPORTED_MODULE_5_lodash___default.a.remove(this.posts, { id: id });
     };
     // Edit Selected Post
     UserPostsPage.prototype.editPost = function (id) {
@@ -281,15 +286,15 @@ webpackEmptyAsyncContext.id = 115;
 
 var map = {
 	"../pages/create-new-post/create-new-post.module": [
-		281,
+		283,
 		2
 	],
 	"../pages/edit-post/edit-post.module": [
-		282,
+		284,
 		1
 	],
 	"../pages/user-posts/user-posts.module": [
-		283,
+		285,
 		0
 	]
 };
@@ -317,7 +322,7 @@ module.exports = webpackAsyncContext;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_rest_rest__ = __webpack_require__(46);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__user_posts_user_posts__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__user_posts_user_posts__ = __webpack_require__(103);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -351,12 +356,13 @@ var HomePage = (function () {
             _this.users = data;
         });
     };
-    // Click event to display user posts page for specific user
+    // Click event to display all posts for a specific user
     HomePage.prototype.viewPosts = function (user) {
+        // Push user data to UserPostsPage
         this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_3__user_posts_user_posts__["a" /* UserPostsPage */], {
             user: user
         });
-        console.log('VIEWPOSTS for user: ' + user.id);
+        console.log('View all Posts for user: ' + user.username);
     };
     HomePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
@@ -396,11 +402,11 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(198);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_status_bar__ = __webpack_require__(201);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_common_http__ = __webpack_require__(158);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__app_component__ = __webpack_require__(280);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__app_component__ = __webpack_require__(282);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_home_home__ = __webpack_require__(202);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_user_posts_user_posts__ = __webpack_require__(102);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_create_new_post_create_new_post__ = __webpack_require__(100);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_edit_post_edit_post__ = __webpack_require__(101);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_user_posts_user_posts__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_create_new_post_create_new_post__ = __webpack_require__(101);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_edit_post_edit_post__ = __webpack_require__(102);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__providers_rest_rest__ = __webpack_require__(46);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -468,7 +474,7 @@ var AppModule = (function () {
 
 /***/ }),
 
-/***/ 280:
+/***/ 282:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -568,6 +574,7 @@ var RestProvider = (function () {
     // Get posts from specific user
     RestProvider.prototype.getUserPosts = function (id) {
         var _this = this;
+        // console.log(id);
         return new Promise(function (resolve) {
             _this.http.get(_this.apiUrl + '/posts?userId=' + id).subscribe(function (data) {
                 resolve(data);
@@ -580,13 +587,17 @@ var RestProvider = (function () {
     // Add a new post
     RestProvider.prototype.createPost = function (post) {
         var _this = this;
+        // console.log(post);
         return new Promise(function (resolve, reject) {
             _this.http.post(_this.apiUrl + '/posts', __assign({}, post))
                 .subscribe(function (res) {
+                console.log('Creating Post...');
                 resolve(res);
             }, function (err) {
                 console.log(err);
                 reject(err);
+            }, function () {
+                console.log('Post Created Successfully!');
             });
         });
     };
@@ -594,6 +605,7 @@ var RestProvider = (function () {
     // Edit a post
     RestProvider.prototype.editPost = function (id) {
         var _this = this;
+        // console.log(id);
         return new Promise(function (resolve, reject) {
             _this.http.put(_this.apiUrl + '/posts/' + id, JSON.stringify(id))
                 .subscribe(function (res) {
@@ -607,14 +619,17 @@ var RestProvider = (function () {
     // DELETE
     // Delete a post
     RestProvider.prototype.deletePost = function (id) {
-        console.log('api deletePost arg: ' + id);
-        this.http.delete(this.apiUrl + '/posts/' + id)
-            .subscribe(function (post) {
-            console.log('Deleting Post:', id);
-        }, function (response) {
-            console.log('ERROR', response);
-        }, function () {
-            console.log('DELETE now completed.');
+        var _this = this;
+        // console.log('api deletePost arg: ' + id);
+        return new Promise(function (resolve, reject) {
+            _this.http.delete(_this.apiUrl + '/posts/' + id)
+                .subscribe(function (post) {
+                console.log('Deleting Post:', id);
+            }, function (response) {
+                console.log('ERROR', response);
+            }, function () {
+                console.log('Post Deleted Successfully!');
+            });
         });
     };
     RestProvider = __decorate([

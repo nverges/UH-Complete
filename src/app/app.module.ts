@@ -11,6 +11,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { UserPostsPage } from '../pages/user-posts/user-posts';
 import { CreateNewPostPage } from '../pages/create-new-post/create-new-post';
+import { EditPostPage } from '../pages/edit-post/edit-post';
 
 // Providers
 import { RestProvider } from '../providers/rest/rest';
@@ -20,7 +21,8 @@ import { RestProvider } from '../providers/rest/rest';
     MyApp,
     HomePage,
     UserPostsPage,
-    CreateNewPostPage
+    CreateNewPostPage,
+    EditPostPage
   ],
   imports: [
     BrowserModule,
@@ -32,7 +34,8 @@ import { RestProvider } from '../providers/rest/rest';
     MyApp,
     HomePage,
     UserPostsPage,
-    CreateNewPostPage
+    CreateNewPostPage,
+    EditPostPage
   ],
   providers: [
     StatusBar,

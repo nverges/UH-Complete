@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavParams, ViewController } from 'ionic-angular';
 
 // Providers
 import { RestProvider } from '../../providers/rest/rest';
@@ -18,11 +18,18 @@ import { RestProvider } from '../../providers/rest/rest';
 })
 export class CreateNewPostPage {
 
-  posts: any;
-  title: any;
-  body: any;
+  // Variables
+  title: string;
+  body: string;
+  id: number;
+  user: any;
+  appendNewPost: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public restProvider: RestProvider) {
+  constructor(public navParams: NavParams, public viewCtrl: ViewController, public restProvider: RestProvider) {
+
+    // Retrieve user info
+    this.user = navParams.get('userId');
+    this.appendNewPost = navParams.get('appendNewPost');
 
   }
 
@@ -30,15 +37,33 @@ export class CreateNewPostPage {
     console.log('CreateNewPostPage loaded');
   }
 
-  // Save Post (not yet functioning)
-  savePost() {
+  // Save Post
+  savePost(userId) {
+    console.log('savePost() firing');
+
+    // set userId for selected user
+    userId = this.user;
+
     // New Post object
-    let newItem = {
+    let newPost = {
+      userId,
       title: this.title,
-      body: this.body,
+      body: this.body
     };
-    // { need to post to DB }
-    this.viewCtrl.dismiss(newItem);
+
+    // logs
+    console.log('Create New Post for userId: ' + userId);
+    console.log(newPost);
+ 
+    // Validation - if a newPost has been entered...
+    if (newPost) {
+      // Trigger API POST request
+      this.restProvider.createPost(newPost)
+        .then(this.appendNewPost(newPost));
+    }
+
+    // Dismiss Modal
+    this.viewCtrl.dismiss(newPost);
   }
 
   // Close View

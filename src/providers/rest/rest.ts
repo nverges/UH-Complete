@@ -16,6 +16,7 @@ export class RestProvider {
     console.log('RestProvider loaded');
   }
 
+  // GET all
   // Get list of all users
   getUsers() {
     return new Promise(resolve => {
@@ -27,10 +28,11 @@ export class RestProvider {
     });
   }
 
+  // GET by userId
   // Get posts from specific user
   getUserPosts(id) {
     return new Promise(resolve => {
-      this.http.get(this.apiUrl+'/posts?userID='+id).subscribe(data => {
+      this.http.get(this.apiUrl+'/posts?userId='+id).subscribe(data => {
         resolve(data);
       }, err=> {
         console.log(err);
@@ -38,21 +40,53 @@ export class RestProvider {
     });
   }
 
-  // Add new post
-  addPost(data) {
+  // POST 
+  // Add a new post
+  createPost(post) {
     return new Promise((resolve, reject) => {
-      this.http.post(this.apiUrl+'/posts', JSON.stringify(data))
+      this.http.post(this.apiUrl+'/posts', {
+        // id,
+        ...post
+      })
         .subscribe(res => {
           resolve(res);
         }, (err) => {
+          console.log(err);
           reject(err);
         });
     });
   }
 
-  // Edit post
-  editPost(post) {
-    
+  // PUT
+  // Edit a post
+  editPost(id) {
+    return new Promise((resolve, reject) => {
+      this.http.put(this.apiUrl+'/posts/'+id, JSON.stringify(id))
+        .subscribe(res => {
+          resolve(res);
+        }, (err) => {
+          console.log(err);
+          reject(err);
+        });
+    });
+  }
+
+  // DELETE
+  // Delete a post
+  deletePost(id) {
+    console.log('api deletePost arg: ' + id)
+    this.http.delete(this.apiUrl+'/posts/'+id)
+    .subscribe(
+      (post) => {
+        console.log('Deleting Post:', post)
+      },
+      response => {
+        console.log('ERROR', response);
+      },
+      () => {
+        console.log('DELETE now completed.')
+      }
+    )
   }
 
 }

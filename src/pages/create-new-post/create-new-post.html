@@ -20,6 +20,11 @@
     <ion-list>
 
         <ion-item>
+            <ion-label floating ng-model='user'>Create post for: {{ user }}</ion-label>
+            <ion-input type='text' disabled></ion-input>
+        </ion-item>
+
+        <ion-item>
             <ion-label floating>Title</ion-label>
             <ion-input type='text' [(ngModel)]='title'></ion-input>
         </ion-item>
@@ -31,6 +36,6 @@
 
     </ion-list>
 
-    <button full ion-button color='secondary' (click)='savePost()'>Save</button>
+    <button full ion-button color='secondary' (click)='savePost(id)'>Save</button>
 
 </ion-content>
